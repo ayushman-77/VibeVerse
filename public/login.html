@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeVerse Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+  <div class="cosmic-background">
+    <div class="orb top-right"></div>
+    <div class="orb bottom-left"></div>
+    <div class="ring top-right"></div>
+    <div class="ring bottom-left"></div>
+    <div class="stars"></div>
+  </div>
+
+  <div class="header">
+    <div class="logo">
+        <span>VibeVerse</span>
+    </div>
+    <div class="nav-icons">
+        <div class="nav-icon">
+            <a href="index.html" style="text-decoration: none; color: inherit;">🏠</a>
+        </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="container" style="margin-top: 150px;">
+      <div class="tabs">
+        <div class="tab active" data-target="signup-section">Sign Up</div>
+        <div class="tab" data-target="login-section">Login</div>
+      </div>
+
+      <div id="auth-forms">
+        <div id="signup-section" class="tab-content active">
+          <h2>Sign Up</h2>
+          <input type="email" id="signup-email" placeholder="Email">
+          <input type="password" id="signup-password" placeholder="Password">
+          <button id="signup-button">Sign Up</button>
+        </div>
+
+        <div id="login-section" class="tab-content">
+          <h2>Login</h2>
+          <input type="email" id="login-email" placeholder="Email">
+          <input type="password" id="login-password" placeholder="Password">
+          <button id="login-button">Login</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="logout-section" style="display: none;">
+      <h2>Welcome!</h2>
+      <button id="logout-button">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    // Generate stars for the cosmic background
+    function generateStars() {
+        const starsContainer = document.querySelector('.stars');
+        const starCount = 100;
+        
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 5}s`;
+            starsContainer.appendChild(star);
+        }
+    }
+    
+    // Call the function when the page loads
+    window.addEventListener('load', generateStars);
+  </script>
+
+  <script type="module">
+    import { signUp, login, logout, getCurrentUser } from "./firebase.js";
+
+    const signupButton = document.getElementById("signup-button");
+    const loginButton = document.getElementById("login-button");
+    const logoutButton = document.getElementById("logout-button");
+    const authForms = document.getElementById("auth-forms");
+    const logoutSection = document.getElementById("logout-section");
+
+    // Tab switching logic
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs and contents
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+        // Add active class to the clicked tab and its content
+        tab.classList.add('active');
+        document.getElementById(tab.getAttribute('data-target')).classList.add('active');
+      });
+    });
+
+    // Check if the user is logged in
+    const checkAuthState = async () => {
+      const user = await getCurrentUser();
+      const tabsDiv = document.querySelector('.tabs'); // Select the tabs div
+      if (user) {
+        // User is logged in
+        authForms.style.display = "none";
+        logoutSection.style.display = "block";
+        tabsDiv.style.display = "none"; // Hide the tabs div
+        document.querySelector("#logout-section h2").textContent = `Welcome, You are logged in!`;
+        alert("You are already logged in.");
+      } else {
+        // User is logged out
+        authForms.style.display = "block";
+        logoutSection.style.display = "none";
+        tabsDiv.style.display = "flex"; // Show the tabs div
+      }
+    };
+
+    signupButton.addEventListener("click", async () => {
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+
+      if (!email || !password) {
+        alert("Please provide both email and password.");
+        return;
+      }
+
+      try {
+        await signUp(email, password); // Sign up the user
+        alert("Sign-up successful! You are now logged in.");
+        window.location.href = "index.html"; // Redirect to homepage
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    loginButton.addEventListener("click", async () => {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      if (!email || !password) {
+        alert("Please provide both email and password.");
+        return;
+      }
+
+      try {
+        await login(email, password); // Log in the user
+        alert("Login successful!");
+        window.location.href = "index.html"; // Redirect to homepage
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    logoutButton.addEventListener("click", async () => {
+      try {
+        await logout(); // Log out the user
+        alert("Logged out successfully!");
+        checkAuthState(); // Update the UI
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    // Check authentication state on page load
+    checkAuthState();
+  </script>
+</body>
+</html>

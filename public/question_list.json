@@ -1,0 +1,344 @@
+[
+    {
+        "question": "How did you sleep last night?",
+        "choices": {
+            "Like a baby, it was amazing!": "Happy",
+            "It was okay, nothing special.": "Chill",
+            "Kept waking up, not great.": "Sad",
+            "Had nightmares, barely slept.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel about today’s plans?",
+        "choices": {
+            "Super excited, can’t wait!": "Excited",
+            "Just another normal day.": "Chill",
+            "Not looking forward to it.": "Sad",
+            "Nervous about something today.": "Scared"
+        }
+    },
+    {
+        "question": "How was your last meal?",
+        "choices": {
+            "Absolutely delicious!": "Happy",
+            "It was just okay.": "Chill",
+            "Didn’t enjoy it much.": "Sad",
+            "I lost my appetite.": "Scared"
+        }
+    },
+    {
+        "question": "What’s your reaction when you hear your favorite song?",
+        "choices": {
+            "Start dancing and singing along!": "Excited",
+            "Just enjoy the vibe.": "Chill",
+            "Feel a little nostalgic.": "Sad",
+            "Skip it, not in the mood.": "Scared"
+        }
+    },
+    {
+        "question": "How do you usually react to surprises?",
+        "choices": {
+            "I love surprises!": "Excited",
+            "Depends on the situation.": "Chill",
+            "I don’t really like them.": "Sad",
+            "I get really anxious.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel about trying something new?",
+        "choices": {
+            "Super excited to explore!": "Excited",
+            "I’m open to it.": "Chill",
+            "I’d rather not.": "Sad",
+            "I feel really nervous.": "Scared"
+        }
+    },
+    {
+        "question": "What do you do when you’re alone?",
+        "choices": {
+            "Do something fun or creative!": "Happy",
+            "Just relax and unwind.": "Chill",
+            "Feel a little lonely.": "Sad",
+            "Overthink and get anxious.": "Scared"
+        }
+    },
+    {
+        "question": "How do you usually spend your weekends?",
+        "choices": {
+            "Go out and have fun!": "Excited",
+            "Just chill at home.": "Chill",
+            "Sleep a lot, not much else.": "Sad",
+            "Worry about the upcoming week.": "Scared"
+        }
+    },
+    {
+        "question": "How do you react when things don’t go as planned?",
+        "choices": {
+            "Roll with it, no big deal.": "Chill",
+            "Try to find a way to fix it.": "Happy",
+            "Feel down and frustrated.": "Sad",
+            "Panic and stress out.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel about social events?",
+        "choices": {
+            "Love them, so much fun!": "Excited",
+            "They’re okay, depends on my mood.": "Chill",
+            "Not really my thing.": "Sad",
+            "They make me really anxious.": "Scared"
+        }
+    },
+    {
+        "question": "What’s your usual reaction to a stressful situation?",
+        "choices": {
+            "Stay calm and handle it.": "Chill",
+            "Try to find a solution quickly.": "Happy",
+            "Feel overwhelmed and upset.": "Sad",
+            "Panic and overthink everything.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel when you wake up in the morning?",
+        "choices": {
+            "Excited for the day ahead!": "Excited",
+            "Just another day, no big deal.": "Chill",
+            "Wish I could sleep longer.": "Sad",
+            "Anxious about what’s coming.": "Scared"
+        }
+    },
+    {
+        "question": "How do you usually feel on a rainy day?",
+        "choices": {
+            "Cozy and relaxed.": "Chill",
+            "Excited to enjoy the weather!": "Excited",
+            "A little down, not my favorite.": "Sad",
+            "Uncomfortable and restless.": "Scared"
+        }
+    },
+    {
+        "question": "What’s your favorite way to spend free time?",
+        "choices": {
+            "Doing something fun and active!": "Excited",
+            "Relaxing with a book or show.": "Chill",
+            "Just lying in bed.": "Sad",
+            "Worrying about things.": "Scared"
+        }
+    },
+    {
+        "question": "How do you react when someone cancels plans?",
+        "choices": {
+            "No problem, more time to relax!": "Chill",
+            "A little disappointed but okay.": "Happy",
+            "Feel kind of rejected.": "Sad",
+            "Worry they don’t like me.": "Scared"
+        }
+    },
+    {
+        "question": "What’s your energy level like today?",
+        "choices": {
+            "Super energetic and ready to go!": "Excited",
+            "Just normal, nothing special.": "Chill",
+            "Feeling really drained.": "Sad",
+            "Nervous and restless.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel when you're alone?",
+        "choices": {
+            "Relaxed and peaceful.": "Chill",
+            "Excited to do my own thing!": "Happy",
+            "Lonely and down.": "Sad",
+            "Overthink everything.": "Scared"
+        }
+    },
+    {
+        "question": "How do you usually respond to a challenge?",
+        "choices": {
+            "Bring it on! I love challenges.": "Excited",
+            "I’ll handle it calmly.": "Chill",
+            "Not feeling confident about it.": "Sad",
+            "I panic and stress out.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel about the future?",
+        "choices": {
+            "Excited for what’s to come!": "Excited",
+            "It’s uncertain, but I’ll take it as it comes.": "Chill",
+            "Not very hopeful.": "Sad",
+            "Worried about everything.": "Scared"
+        }
+    },
+    {
+        "question": "What do you do when you hear bad news?",
+        "choices": {
+            "Stay calm and process it.": "Chill",
+            "Try to find a way to fix things.": "Happy",
+            "Feel really upset.": "Sad",
+            "Panic and assume the worst.": "Scared"
+        }
+    },
+    {
+        "question": "How do you usually spend your evenings?",
+        "choices": {
+            "Hanging out and having fun!": "Excited",
+            "Relaxing and unwinding.": "Chill",
+            "Just lying in bed, doing nothing.": "Sad",
+            "Overthinking my entire day.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel when you get a message from a friend?",
+        "choices": {
+            "Excited! I love chatting.": "Excited",
+            "Cool, I’ll check it when I can.": "Chill",
+            "Hope it's nothing bad.": "Sad",
+            "Feel anxious about replying.": "Scared"
+        }
+    },
+    {
+        "question": "What’s your reaction when you have to speak in public?",
+        "choices": {
+            "Love it! I enjoy the spotlight.": "Excited",
+            "I don’t mind, it’s fine.": "Chill",
+            "Not really comfortable with it.": "Sad",
+            "Terrified! I panic a lot.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel when you hear laughter nearby?",
+        "choices": {
+            "Happy! Laughter is contagious.": "Happy",
+            "It’s nice to hear.": "Chill",
+            "Hope they’re not laughing at me.": "Sad",
+            "Makes me feel uneasy.": "Scared"
+        }
+    },
+    {
+        "question": "How do you react when things don’t go as planned?",
+        "choices": {
+            "I just go with the flow.": "Chill",
+            "I find another way to make it work.": "Happy",
+            "I feel a little down.": "Sad",
+            "I get anxious and frustrated.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel when you finish a big task?",
+        "choices": {
+            "Super accomplished and proud!": "Happy",
+            "Glad it’s over, time to rest.": "Chill",
+            "Exhausted and drained.": "Sad",
+            "Worried if I did it right.": "Scared"
+        }
+    },
+    {
+        "question": "What’s your ideal way to spend a holiday?",
+        "choices": {
+            "Going on an adventure!": "Excited",
+            "Chilling and relaxing.": "Chill",
+            "Staying in bed all day.": "Sad",
+            "Worrying about upcoming work.": "Scared"
+        }
+    },
+    {
+        "question": "How do you react when you receive a compliment?",
+        "choices": {
+            "I feel really happy!": "Happy",
+            "I appreciate it, but stay neutral.": "Chill",
+            "I don’t really believe it.": "Sad",
+            "I get awkward and anxious.": "Scared"
+        }
+    },
+    {
+        "question": "How do you usually feel in a crowd?",
+        "choices": {
+            "Energized! I love the atmosphere.": "Excited",
+            "Fine, I don’t mind.": "Chill",
+            "A bit uncomfortable.": "Sad",
+            "Very anxious and overwhelmed.": "Scared"
+        }
+    },
+    {
+        "question": "What’s your first thought when you wake up?",
+        "choices": {
+            "Let’s have a great day!": "Happy",
+            "Just another normal morning.": "Chill",
+            "Wish I could stay in bed.": "Sad",
+            "Already stressing about the day.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel about making new friends?",
+        "choices": {
+            "Super excited to meet new people!": "Excited",
+            "It’s fine, if it happens naturally.": "Chill",
+            "It’s hard for me.": "Sad",
+            "I get nervous talking to new people.": "Scared"
+        }
+    },
+    {
+        "question": "What’s your favorite kind of movie?",
+        "choices": {
+            "A fun, exciting action movie!": "Excited",
+            "Something relaxing, like a comedy.": "Chill",
+            "A deep, emotional drama.": "Sad",
+            "A suspenseful thriller.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel about change?",
+        "choices": {
+            "Excited! Change is good.": "Excited",
+            "I can adapt to it.": "Chill",
+            "I struggle with it.": "Sad",
+            "It makes me anxious.": "Scared"
+        }
+    },
+    {
+        "question": "What do you do when you feel overwhelmed?",
+        "choices": {
+            "Take a deep breath and handle it.": "Chill",
+            "Find something fun to do.": "Happy",
+            "Feel stuck and down.": "Sad",
+            "Panic and overthink everything.": "Scared"
+        }
+    },
+    {
+        "question": "How do you usually react to compliments?",
+        "choices": {
+            "I smile and thank them!": "Happy",
+            "It’s nice to hear.": "Chill",
+            "I feel awkward.": "Sad",
+            "I get really anxious.": "Scared"
+        }
+    },
+    {
+        "question": "What’s your go-to activity when you have free time?",
+        "choices": {
+            "Doing something fun and active!": "Excited",
+            "Relaxing and watching something.": "Chill",
+            "Just lying in bed.": "Sad",
+            "Worrying about things.": "Scared"
+        }
+    },
+    {
+        "question": "How do you react to unexpected situations?",
+        "choices": {
+            "Excited for the challenge!": "Excited",
+            "I stay calm and go with it.": "Chill",
+            "I struggle with sudden changes.": "Sad",
+            "I panic and feel overwhelmed.": "Scared"
+        }
+    },
+    {
+        "question": "How do you feel at the end of the day?",
+        "choices": {
+            "Satisfied and happy!": "Happy",
+            "Just another normal day.": "Chill",
+            "Drained and tired.": "Sad",
+            "Worried about tomorrow.": "Scared"
+        }
+    }
+]

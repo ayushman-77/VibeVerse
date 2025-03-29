@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeVerse - Your mood based entertainment guide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="cosmic-background">
+        <div class="orb top-right"></div>
+        <div class="orb bottom-left"></div>
+        <div class="ring top-right"></div>
+        <div class="ring bottom-left"></div>
+        <div class="stars"></div>
+    </div>
+
+    <div class="header">
+        <div class="logo">
+            <span>VibeVerse</span>
+        </div>
+        <div class="nav-icons">
+            <div class="nav-icon">
+                <a href="login.html" style="text-decoration: none; color: inherit;">👤</a>
+            </div>
+            <div class="nav-icon">
+                <a href="index.html" style="text-decoration: none; color: inherit;">🏠</a>
+            </div>
+            <div class="nav-icon">
+                <a href="quiz.html" style="text-decoration: none; color: inherit;">❓</a>
+            </div>
+            <div class="nav-icon">
+                <a href="prompt.html" style="text-decoration: none; color: inherit;">🤖</a>
+            </div>
+            <div class="nav-icon">
+                <a href="about.html" style="text-decoration: none; color: inherit;">ℹ️</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <h1>Welcome to VibeVerse</h1>
+        <p class="tagline">Your mood based entertainment guide</p>
+        
+        <div class="search-bar">
+            <input type="text" id="moodInput" placeholder="Search for movies, games or music...">
+            <button id="searchButton">🔍</button>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-target="moviesSection">🎬 Movies</div>
+            <div class="tab" data-target="musicSection">🎵 Music</div>
+            <div class="tab" data-target="gamesSection">🎮 Games</div>
+        </div>
+        
+        <div class="section active" id="moviesSection">
+            <div class="movies-container movie-section" id="moviesContainer">
+                <div class="category-section">
+                    <h3 class="category-label">Trending Movies <span class="badge">New</span></h3>
+                    <div class="movie-grid" id="movieGrid">
+                        <!-- Movie cards dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="musicSection">
+            <div class="music-container music-section" id="musicContainer">
+                <div class="category-section">
+                    <h3 class="category-label">Trending Music <span class="badge">New</span></h3>
+                    <div class="music-grid" id="musicGrid">
+                        <!-- Music cards dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="gamesSection">
+            <div class="games-container game-section" id="gamesContainer">
+                <div class="category-section">
+                    <h3 class="category-label">Trending Games <span class="badge">New</span></h3>
+                    <div class="game-grid" id="gameGrid">
+                        <!-- Game cards dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="client.js" type="module"></script>
+    <script>
+        // Add event listeners for tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                
+                this.classList.add('active');
+                document.getElementById(this.getAttribute('data-target')).classList.add('active');
+            });
+        });
+        
+        // Add hover effects for movie, music, and game cards
+        document.querySelectorAll('.movie-card, .music-card, .game-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.animation = 'pulse 1s infinite';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.animation = 'none';
+            });
+        });
+
+        // Generate stars for the cosmic background
+        function generateStars() {
+            const starsContainer = document.querySelector('.stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Call the function when the page loads
+        window.addEventListener('load', generateStars);
+
+        // Movies section
+        function addMoviesToGrid(movies, gridId) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = ''; // Clear existing content
+            movies.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.classList.add('movie-card');
+                movieCard.innerHTML = `
+                    <img src="${movie.posterUrl}" alt="${movie.title}">
+                    <h4 class="movie-title">${movie.title}</h4>
+                `;
+                grid.appendChild(movieCard);
+            });
+        }
+
+        // Fetch trending movies and populate the grid
+        fetch('/api/trending')
+            .then(response => response.json())
+            .then(movies => {
+                addMoviesToGrid(movies, 'movieGrid');
+            })
+            .catch(error => console.error('Error fetching movies:', error));
+
+        // Music section
+        function displayMusicRecommendations(tracks) {
+            const musicGrid = document.getElementById('musicGrid');
+            musicGrid.innerHTML = ''; // Clear existing content
+            tracks.forEach(track => {
+                const musicCard = document.createElement('div');
+                musicCard.classList.add('music-card');
+                musicCard.innerHTML = `
+                    <img src="${track.albumArtUrl}" alt="${track.title}">
+                    <h4 class="music-title">${track.title}</h4>
+                    <p class="music-artist">${track.artist}</p>
+                `;
+                musicGrid.appendChild(musicCard);
+            });
+            document.getElementById('recommendationsSection').style.display = 'block';
+        }
+
+        function addTracksToGrid(tracks, gridId) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = ''; // Clear existing content
+            tracks.forEach(track => {
+                const musicCard = document.createElement('div');
+                musicCard.classList.add('music-card');
+                musicCard.innerHTML = `
+                    <img src="${track.albumArtUrl || 'https://via.placeholder.com/300x300.png?text=No+Album+Art'}" alt="${track.title}">
+                    <h4 class="music-title">${track.title}</h4>
+                    <p class="music-artist">${track.artist}</p>
+                `;
+                grid.appendChild(musicCard);
+            });
+        }
+
+        // Fetch trending music and populate the grid
+        function fetchTrendingMusic() {
+            fetch('/api/trending_music')
+                .then(response => response.json())
+                .then(tracks => {
+                    addTracksToGrid(tracks, 'musicGrid');
+                })
+                .catch(error => console.error('Error fetching music:', error));
+        }
+
+        // Add event listener for the "Music" tab
+        document.querySelector('.tab[data-target="musicSection"]').addEventListener('click', () => {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById('musicSection').classList.add('active');
+            fetchTrendingMusic();
+        });
+
+        // Games section
+        function addGamesToGrid(games, gridId) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = ''; // Clear existing content
+            games.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.classList.add('game-card');
+                gameCard.innerHTML = `
+                    <img src="${game.coverUrl}" alt="${game.title}">
+                    <h4 class="game-title">${game.title}</h4>
+                `;
+                grid.appendChild(gameCard);
+            });
+        }
+
+        // Fetch trending games and populate the grid
+        function fetchTrendingGames() {
+            fetch('/api/trending_games')
+                .then(response => response.json())
+                .then(games => {
+                    addGamesToGrid(games, 'gameGrid');
+                })
+                .catch(error => console.error('Error fetching games:', error));
+        }
+
+        // Add event listener for the "Games" tab
+        document.querySelector('.tab[data-target="gamesSection"]').addEventListener('click', () => {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById('gamesSection').classList.add('active');
+            fetchTrendingGames();
+        });
+
+        // Search functionality
+        const searchBar = document.querySelector('.search-bar');
+        const searchInput = searchBar.querySelector('input');
+        const searchButton = document.getElementById('searchButton');
+
+        async function performSearch() {
+            const query = searchInput.value.trim();
+            if (query.length < 2) {
+                console.warn('Please enter at least 2 characters to search'); // Log a warning instead of showing an alert
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+                if (!response.ok) {
+                    console.error(`HTTP error! status: ${response.status}`); // Log the error to the console
+                    return; // Stop execution if the response is not OK
+                }
+
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    console.error('Server did not return JSON'); // Log the error to the console
+                    return; // Stop execution if the response is not JSON
+                }
+
+                let data;
+                try {
+                    data = await response.json(); // Attempt to parse JSON
+                } catch (jsonError) {
+                    console.error('Failed to parse JSON:', jsonError); // Log JSON parsing error
+                    return; // Stop execution if JSON parsing fails
+                }
+
+                // Update movies section
+                const movieGrid = document.getElementById('movieGrid');
+                if (data.movies && data.movies.length > 0) {
+                    addMoviesToGrid(data.movies, 'movieGrid');
+                } else {
+                    movieGrid.innerHTML = '<p>No movies found</p>';
+                }
+
+                // Update games section
+                const gameGrid = document.getElementById('gameGrid');
+                if (data.games && data.games.length > 0) {
+                    addGamesToGrid(data.games, 'gameGrid');
+                } else {
+                    gameGrid.innerHTML = '<p>No games found</p>';
+                }
+
+                // Update music section
+                const musicGrid = document.getElementById('musicGrid');
+                if (data.music && data.music.length > 0) {
+                    addTracksToGrid(data.music, 'musicGrid');
+                } else {
+                    musicGrid.innerHTML = '<p>No music found</p>';
+                }
+            } catch (error) {
+                console.error('Search failed:', error); // Log the error to the console
+            }
+        }
+
+        // Event listener for search button click
+        searchButton.addEventListener('click', performSearch);
+
+        // Event listener for Enter key press
+        searchInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+    </script>
+</body>
+</html>

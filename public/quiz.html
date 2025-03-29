@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeVerse Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+
+    <div class="cosmic-background">
+        <div class="orb top-right"></div>
+        <div class="orb bottom-left"></div>
+        <div class="ring top-right"></div>
+        <div class="ring bottom-left"></div>
+        <div class="stars"></div>
+    </div>
+
+    <div class="header">
+        <div class="logo">
+            <span>VibeVerse</span>
+        </div>
+        <div class="nav-icons">
+            <div class="nav-icon">
+                <a href="index.html" style="text-decoration: none; color: inherit;">🏠</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1>Take the Quiz</h1>
+        <p class="tagline">Find out your mood and get personalized recommendations!</p>
+
+        <div class="quiz-container">
+            <div id="quiz"></div>
+            <button id="nextQuestion" style="display: none;">Next</button>
+            <button id="submitQuiz" style="display: none;">Submit</button>
+        </div>
+
+        <!-- Recommendations Section -->
+        <div class="section" id="recommendationsSection" style="display: none;">
+            <div class="tabs">
+                <div class="tab active" data-target="moviesSection">🎬 Movies</div>
+                <div class="tab" data-target="musicSection">🎵 Music</div>
+                <div class="tab" data-target="gamesSection">🎮 Games</div>
+            </div>
+
+            <div class="movies-container" id="moviesContainer">
+                <div class="category-section">
+                    <h3 class="category-label">Recommended Movies <span class="badge">Based on Your Mood</span></h3>
+                    <div class="movie-grid" id="movieGrid">
+                        <!-- Movie cards dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="music-container" id="musicContainer" style="display: none;">
+                <div class="category-section">
+                    <h3 class="category-label">Recommended Music <span class="badge">Based on Your Mood</span></h3>
+                    <div class="music-grid" id="musicGrid">
+                        <!-- Music cards dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="games-container" id="gamesContainer" style="display: none;">
+                <div class="category-section">
+                    <h3 class="category-label">Recommended Games <span class="badge">Based on Your Mood</span></h3>
+                    <div class="game-grid" id="gameGrid">
+                        <!-- Game cards dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="client.js"></script>
+    <script>
+        const moods = ["Happy", "Sad", "Excited", "Scared", "Chill"];
+        const moodScores = {};
+        moods.forEach(mood => moodScores[mood] = 0);
+
+        const quizContainer = document.getElementById('quiz');
+        const nextButton = document.getElementById('nextQuestion');
+        const submitButton = document.getElementById('submitQuiz');
+        const recommendationsSection = document.getElementById('recommendationsSection');
+        const movieGrid = document.getElementById('movieGrid');
+        const musicGrid = document.getElementById('musicGrid');
+        const gameGrid = document.getElementById('gameGrid');
+
+        let currentQuestionIndex = 0;
+        let questions = [];
+
+        async function loadQuiz() {
+            try {
+                const response = await fetch('/api/questions');
+                if (!response.ok) {
+                    throw new Error(`Failed to load questions: ${response.statusText}`);
+                }
+                questions = await response.json();
+                questions = questions.sort(() => 0.5 - Math.random()).slice(0, 5);
+                showQuestion(currentQuestionIndex);
+            } catch (error) {
+                console.error('Error loading quiz:', error);
+            }
+        }
+
+        function showQuestion(index) {
+            const q = questions[index];
+            quizContainer.innerHTML = `
+                <div class="question">
+                    <h3>${index + 1}. ${q.question}</h3>
+                    <div class="options">
+                        ${Object.keys(q.choices).map(choice => `
+                            <button class="option-button" data-value="${q.choices[choice]}">${choice}</button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            document.querySelectorAll('.option-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    moodScores[button.getAttribute('data-value')] += 1;
+                    currentQuestionIndex += 1;
+                    if (currentQuestionIndex < questions.length) {
+                        showQuestion(currentQuestionIndex);
+                    } else {
+                        quizContainer.innerHTML = '<div class="thank-you-text">Thank you for completing the quiz!</div>';
+                        submitButton.style.display = 'block';
+                    }
+                });
+            });
+        }
+
+        submitButton.addEventListener('click', async () => {
+            try {
+                // Movies recommendations
+                const movieResponse = await fetch('/api/quiz_recommendations', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(moodScores)
+                });
+                if (!movieResponse.ok) {
+                    throw new Error(`Failed to get movie recommendations: ${movieResponse.statusText}`);
+                }
+                const movieRecommendations = await movieResponse.json();
+                displayMovies(movieRecommendations);
+
+                // Music recommendations
+                const musicResponse = await fetch('/api/music_recommendations', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(moodScores)
+                });
+                if (!musicResponse.ok) {
+                    throw new Error(`Failed to get music recommendations: ${musicResponse.statusText}`);
+                }
+                const musicRecommendations = await musicResponse.json();
+                displayMusic(musicRecommendations);
+
+                // Games recommendations
+                const gameResponse = await fetch('/api/quiz_recommendations_games', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(moodScores)
+                });
+                if (!gameResponse.ok) {
+                    throw new Error(`Failed to get game recommendations: ${gameResponse.statusText}`);
+                }
+                const gameRecommendations = await gameResponse.json();
+                displayGames(gameRecommendations);
+
+                // Show recommendations section
+                document.getElementById('recommendationsSection').style.display = 'block';
+            } catch (error) {
+                console.error('Error submitting quiz:', error);
+            }
+        });
+
+        function displayMovies(movies) {
+            const movieGrid = document.getElementById('movieGrid');
+            movieGrid.innerHTML = ''; // Clear existing content
+            movies.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.classList.add('movie-card');
+                movieCard.innerHTML = `
+                    <img src="${movie.posterUrl}" alt="${movie.title}">
+                    <h4 class="movie-title">${movie.title}</h4>
+                `;
+                movieGrid.appendChild(movieCard);
+            });
+        }
+
+        function displayMusic(tracks) {
+            const musicGrid = document.getElementById('musicGrid');
+            musicGrid.innerHTML = ''; // Clear existing content
+            tracks.forEach(track => {
+                const musicCard = document.createElement('div');
+                musicCard.classList.add('music-card');
+                
+                // Create image element with error handling
+                const img = document.createElement('img');
+                img.src = track.albumArtUrl;
+                img.alt = track.title;
+                img.onerror = function() {
+                    // Fallback to placeholder if image fails to load
+                    this.src = 'https://via.placeholder.com/300x300.png?text=No+Album+Art';
+                };
+
+                musicCard.innerHTML = `
+                    <div class="music-image-container"></div>
+                    <h4 class="music-title">${track.title}</h4>
+                    <p class="music-artist">${track.artist}</p>
+                `;
+                
+                // Append the image to the container
+                musicCard.querySelector('.music-image-container').appendChild(img);
+                
+                musicGrid.appendChild(musicCard);
+            });
+        }
+
+        function displayGames(games) {
+            const gameGrid = document.getElementById('gameGrid');
+            gameGrid.innerHTML = ''; // Clear existing content
+            games.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.classList.add('game-card');
+                gameCard.innerHTML = `
+                    <img src="${game.coverUrl}" alt="${game.title}">
+                    <h4 class="game-title">${game.title}</h4>
+                `;
+                gameGrid.appendChild(gameCard);
+            });
+        }
+        
+        // Add event listeners for the tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Hide all containers
+                document.getElementById('moviesContainer').style.display = 'none';
+                document.getElementById('musicContainer').style.display = 'none';
+                document.getElementById('gamesContainer').style.display = 'none';
+
+                // Show selected container
+                const target = tab.getAttribute('data-target');
+                if (target === 'moviesSection') {
+                    document.getElementById('moviesContainer').style.display = 'block';
+                } else if (target === 'musicSection') {
+                    document.getElementById('musicContainer').style.display = 'block';
+                } else if (target === 'gamesSection') {
+                    document.getElementById('gamesContainer').style.display = 'block';
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', loadQuiz);
+    </script>
+</body>
+</html>

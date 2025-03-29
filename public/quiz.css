@@ -1,0 +1,414 @@
+/* General styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
+    color: white;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    background-color: rgba(138, 43, 226, 0.8);
+    padding: 10px 20px;
+}
+
+.logo {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    background-color: transparent;
+    padding: 5px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.nav-icons {
+    display: flex;
+    margin-left: auto;
+}
+
+.nav-icon {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.nav-icon:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.tabs {
+    display: flex;
+    background-color: #f0f0f0;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    cursor: pointer;
+    background-color: #e0e0e0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: black; /* Set text color to black */
+}
+
+.tab.active {
+    background-color: #fff;
+    font-weight: bold;
+    color: black; /* Ensure active tab text is also black */
+}
+
+.tab:hover:not(.active) {
+    background-color: #d0d0d0;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+/* Center-align and beautify the heading and tagline */
+h1 {
+    text-align: center;
+    font-size: 3rem; /* Increase font size for better visibility */
+    font-weight: bold;
+    color: #ffeb3b; /* Bright yellow for emphasis */
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+}
+
+.tagline {
+    text-align: center;
+    font-size: 1.5rem; /* Slightly larger font size */
+    color: #ffffff; /* White color for contrast */
+    margin-bottom: 30px;
+    font-style: italic; /* Add a stylish italic look */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+}
+
+.thank-you-text {
+    text-align: center; /* Center-align the text */
+    font-size: 1.5rem; /* Adjust font size for better visibility */
+    color: white; /* Ensure the text is visible */
+    margin-top: 20px; /* Add spacing above the text */
+    margin-bottom: 20px; /* Add spacing below the text */
+}
+
+/* Quiz container styles */
+.quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px; /* Adds space below the quiz container */
+}
+
+.question {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.question h3 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #fff; /* White text color */
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.option-button {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: #fff;
+    border: none;
+    padding: 15px;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+.option-button:hover {
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+    transform: scale(1.05);
+}
+
+button {
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    }
+
+button:hover {
+    background: linear-gradient(to right, #0072ff, #00c6ff);
+    transform: scale(1.05);
+}
+
+/* Recommendations container styles */
+.recommendations-container {
+    max-width: 800px;
+    margin: 40px auto 0;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #fff;
+}
+
+#recommendationsSection {
+    margin-top: 30px; /* Adds space above the recommendations section */
+}
+
+/* Recommendations Section */
+.movies-container, .music-container, .games-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #000;
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+    height: 500px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #555 #222;
+}
+
+.movies-container::-webkit-scrollbar, .music-container::-webkit-scrollbar, .games-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.movies-container::-webkit-scrollbar-track, .music-container::-webkit-scrollbar-track, .games-container::-webkit-scrollbar-track {
+    background: #222;
+}
+
+.movies-container::-webkit-scrollbar-thumb, .music-container::-webkit-scrollbar-thumb, .games-container::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+}
+
+.movie-grid, .music-grid, .game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 0 20px; /* Add padding on both sides */
+    justify-content: space-between; /* Distribute items evenly */
+}
+
+.movie-card, .music-card, .game-card {
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    width: 100%; /* Ensure cards take up full width of their grid area */
+    height: 100%;
+    max-width: 250px; /* Match the size in styles.css */
+    max-height: 375px; /* Match the size in styles.css */
+    object-fit: cover;
+}
+
+.movie-card img, .music-card img, .game-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 2 / 3; /* Maintain aspect ratio */
+}
+
+.movie-info, .music-info, .game-info {
+    padding: 10px;
+    background-color: #111;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-title, .music-title, .game-title {
+    margin-top: 10px;
+    font-size: 14px;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.category-label {
+    color: white;
+    margin-bottom: 15px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 20px; /* Add left padding to align with first movie */
+}
+
+.badge {
+    background-color: #ffeb3b;
+    color: black;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 10px;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+}
+
+.movie-card:hover .movie-info {
+    background-color: #2989d8;
+}
+
+/* Tab styles */
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    cursor: pointer;
+    background-color: #e0e0e0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: black; /* Set text color to black */
+}
+
+.tab.active {
+    background-color: #fff;
+    font-weight: bold;
+    color: black; /* Ensure active tab text is also black */
+}
+
+.tab:hover:not(.active) {
+    background-color: #d0d0d0;
+}
+/* Existing styles remain the same */
+
+/* Music Section Styles (extending movie section styles) */
+.music-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #000;
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+    height: 500px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #555 #222;
+}
+
+.music-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.music-container::-webkit-scrollbar-track {
+    background: #222;
+}
+
+.music-container::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+}
+
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 0 20px;
+    justify-content: space-between;
+}
+
+.music-card {
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    max-width: 250px;
+    max-height: 375px;
+    object-fit: cover;
+}
+
+.music-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 1 / 1; /* Square aspect ratio for album covers */
+}
+
+.music-info {
+    padding: 10px;
+    background-color: #111;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.music-title {
+    margin-top: 10px;
+    font-size: 14px;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.music-card:hover {
+    transform: scale(1.05);
+}
+
+.music-card:hover .music-info {
+    background-color: #ff416c; /* Slightly different hover color for variation */
+}
+
+/* Additional styling for artist name */
+.music-artist {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 5px;
+}

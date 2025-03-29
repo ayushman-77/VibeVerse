@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="prompt.css">
+</head>
+<body>
+    <div class="cosmic-background">
+        <div class="orb top-right"></div>
+        <div class="orb bottom-left"></div>
+        <div class="ring top-right"></div>
+        <div class="ring bottom-left"></div>
+        <div class="stars"></div>
+    </div>
+
+    <div class="header">
+        <div class="logo">
+            <span>VibeVerse</span>
+        </div>
+        <div class="nav-icons">
+            <div class="nav-icon">
+                <a href="index.html" style="text-decoration: none; color: inherit;">🏠</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content">
+        <h1>What's on your mind?</h1>
+        
+        <div class="prompt-bar">
+            <input type="text" class="prompt-input" placeholder="Enter your prompt here...">
+            <button class="prompt-button">🚀 Generate</button>
+        </div>
+        
+        <div class="section active" id="textSection">
+            <div class="results-grid" id="textResults">
+                <!-- Text results will be dynamically inserted here -->
+            </div>
+        </div>
+        
+        <div class="section" id="imageSection">
+            <div class="results-grid" id="imageResults">
+                <!-- Image results will be dynamically inserted here -->
+            </div>
+        </div>
+        
+        <div class="section" id="codeSection">
+            <div class="results-grid" id="codeResults">
+                <!-- Code results will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">        
+        <div class="tabs">
+            <div class="tab active" data-target="moviesSection">🎬 Movies</div>
+            <div class="tab" data-target="musicSection">🎵 Music</div>
+            <div class="tab" data-target="gamesSection">🎮 Games</div>
+        </div>
+        
+        <div class="sections-container">
+            <div class="section active" id="moviesSection">
+                <div class="movies-container" id="moviesContainer">
+                    <div class="category-section">
+                        <h3 class="category-label">Trending Movies <span class="badge">New</span></h3>
+                        <div class="movie-grid" id="movieGrid">
+                            <!-- Movie cards dynamically inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="musicSection" style="display: none;">
+                <div class="music-container" id="musicContainer">
+                    <div class="category-section">
+                        <h3 class="category-label">Trending Music <span class="badge">New</span></h3>
+                        <div class="music-grid" id="musicGrid">
+                            <!-- Music cards dynamically inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="gamesSection" style="display: none;">
+                <div class="games-container" id="gamesContainer">
+                    <div class="category-section">
+                        <h3 class="category-label">Trending Games <span class="badge">New</span></h3>
+                        <div class="game-grid" id="gameGrid">
+                            <!-- Game cards dynamically inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to render movies
+        function displayMovies(movies) {
+            const movieGrid = document.getElementById('movieGrid');
+            movieGrid.innerHTML = ''; // Clear existing content
+            movies.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.classList.add('movie-card');
+                movieCard.innerHTML = `
+                    <img src="${movie.posterUrl}" alt="${movie.title}">
+                    <h4 class="movie-title">${movie.title}</h4>
+                `;
+                movieGrid.appendChild(movieCard);
+            });
+        }
+
+        // Function to render music
+        function displayMusic(tracks) {
+            const musicGrid = document.getElementById('musicGrid');
+            musicGrid.innerHTML = ''; // Clear existing content
+            tracks.forEach(track => {
+                const musicCard = document.createElement('div');
+                musicCard.classList.add('music-card');
+                
+                // Create image element with error handling
+                const img = document.createElement('img');
+                img.src = track.albumArtUrl;
+                img.alt = track.title;
+                img.onerror = function() {
+                    // Fallback to placeholder if image fails to load
+                    this.src = 'https://via.placeholder.com/300x300.png?text=No+Album+Art';
+                };
+
+                musicCard.innerHTML = `
+                    <div class="music-image-container"></div>
+                    <h4 class="music-title">${track.title}</h4>
+                    <p class="music-artist">${track.artist}</p>
+                `;
+                
+                // Append the image to the container
+                musicCard.querySelector('.music-image-container').appendChild(img);
+                
+                musicGrid.appendChild(musicCard);
+            });
+        }
+
+        // Function to render games
+        function displayGames(games) {
+            const gameGrid = document.getElementById('gameGrid');
+            gameGrid.innerHTML = ''; // Clear existing content
+            games.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.classList.add('game-card');
+                gameCard.innerHTML = `
+                    <img src="${game.coverUrl}" alt="${game.title}">
+                    <h4 class="game-title">${game.title}</h4>
+                `;
+                gameGrid.appendChild(gameCard);
+            });
+        }
+
+        // Fetch and render suggestions
+        async function fetchSuggestions(prompt) {
+            try {
+                const response = await fetch('/api/store_prompt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ prompt }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch suggestions');
+                }
+
+                const result = await response.json();
+
+                // Render suggestions
+                if (result.suggestions && result.suggestions.movies) {
+                    displayMovies(result.suggestions.movies);
+                } else {
+                    console.error('No movie suggestions found in the response');
+                }
+
+                if (result.suggestions && result.suggestions.music) {
+                    displayMusic(result.suggestions.music);
+                } else {
+                    console.error('No music suggestions found in the response');
+                }
+
+                if (result.suggestions && result.suggestions.games) {
+                    displayGames(result.suggestions.games);
+                } else {
+                    console.error('No game suggestions found in the response');
+                }
+            } catch (error) {
+                console.error('Error fetching suggestions:', error.message);
+            }
+        }
+
+        // Event listener for the Generate button
+        document.querySelector('.prompt-button').addEventListener('click', () => {
+            const promptInput = document.querySelector('.prompt-input');
+            const prompt = promptInput.value.trim();
+
+            if (prompt) {
+                fetchSuggestions(prompt);
+            }
+        });
+
+        // Tab switching logic
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // Hide all sections
+                document.querySelectorAll('.section').forEach(section => section.style.display = 'none');
+
+                // Show the selected section
+                const target = this.getAttribute('data-target');
+                document.getElementById(target).style.display = 'block';
+            });
+        });
+
+        // Ensure only the movies section is visible by default
+        document.getElementById('moviesSection').style.display = 'block';
+        document.getElementById('musicSection').style.display = 'none';
+        document.getElementById('gamesSection').style.display = 'none';
+    </script>
+</body>
+</html>
