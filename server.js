@@ -8,37 +8,46 @@ import { google } from 'googleapis';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
-dotenv.config();
+import admin from "firebase-admin";
+import { config } from "./functions/index.js"; // Import config
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Initialize Firebase Admin
+admin.initializeApp();
 
-const app = express();
-const API_KEY = process.env.TMDB_API_KEY;
-const BASE_URL = process.env.TMDB_BASE_URL;
-const IMAGE_URL = process.env.TMDB_IMAGE_URL;
+// Fetch secrets using config
+const tmdbApiKey = config.tmdbApiKey.value();
+const tmdbBaseUrl = config.tmdbBaseUrl.value();
+const tmdbImageUrl = config.tmdbImageUrl.value();
 
-const CLIENT_ID = process.env.IGDB_CLIENT_ID;
-const CLIENT_SECRET = process.env.IGDB_CLIENT_SECRET;
-const ACCESS_TOKEN = process.env.IGDB_ACCESS_TOKEN;
-const IGDB_BASE_URL = process.env.IGDB_BASE_URL;
+const igdbClientId = config.igdbClientId.value();
+const igdbClientSecret = config.igdbClientSecret.value();
+const igdbAccessToken = config.igdbAccessToken.value();
+const igdbBaseUrl = config.igdbBaseUrl.value();
 
-const LASTFM_API_KEY = process.env.LASTFM_API_KEY;
+const lastfmApiKey = config.lastfmApiKey.value();
 
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
-const GOOGLE_CX = process.env.GOOGLE_CX;
+const googleApiKey = config.googleApiKey.value();
+const googleCx = config.googleCx.value();
 
-const API_URL = process.env.HUGGINGFACE_API_URL;
-const API_TOKEN = process.env.HUGGINGFACE_API_TOKEN;
+const huggingfaceApiUrl = config.huggingfaceApiUrl.value();
+const huggingfaceApiToken = config.huggingfaceApiToken.value();
+
+const firebaseApiKey = config.firebaseApiKey.value();
+const firebaseAuthDomain = config.firebaseAuthDomain.value()
+const firebaseProjectId = config.firebaseProjectId.value();
+const firebaseStorageBucket = config.firebaseStorageBucket.value();
+const firebaseMessagingSenderId = config.firebaseMessagingSenderId.value();
+const firebaseAppId = config.firebaseAppId.value();
+const firebaseMeasurementId = config.firebaseMeasurementId.value();
 
 const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.FIREBASE_APP_ID,
-    measurementId: process.env.FIREBASE_MEASUREMENT_ID,
+    apiKey: firebaseApiKey,
+    authDomain: firebaseAuthDomain,
+    projectId: firebaseProjectId,
+    storageBucket: firebaseStorageBucket,
+    messagingSenderId: firebaseMessagingSenderId,
+    appId: firebaseAppId,
+    measurementId: firebaseMeasurementId
 };
 
 const GENRE = {};
@@ -57,7 +66,7 @@ const MOOD_TO_GENRE_GAMES = {
     "excited": [5, 4, 10],
     "scared": [11, 24, 16],
     "chill": [9, 35, 26]
-}
+};
 
 app.use(cors());
 app.use(express.json());
@@ -79,7 +88,7 @@ app.post('/api/recommendations', async (req, res) => {
         return res.status(400).json({ error: "Invalid mood!" });
     }
 
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`;
+    const url = `https://api.themoviedb.org/3/discover/movie?api_key=${tmdbApiKey}&with_genres=${genreId}`;
     try {
         const response = await axios.get(url);
         if (response.status === 200) {
@@ -173,8 +182,8 @@ async function getMovies(n, genreId = null) {
 
     while (movies.length < n) {
         const url = genreId
-            ? `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&page=${page}`
-            : `${BASE_URL}/trending/movie/day?api_key=${API_KEY}&page=${page}`;
+            ? `${tmdbBaseUrl}/discover/movie?api_key=${tmdbApiKey}&with_genres=${genreId}&page=${page}`
+            : `${tmdbBaseUrl}/trending/movie/day?api_key=${tmdbApiKey}&page=${page}`;
         
         try {
             const response = await axios.get(url);
@@ -202,7 +211,7 @@ async function getGames(n, genreId = null) {
     let offset = 0;
 
     while (games.length < n) {
-        const url = `${IGDB_BASE_URL}/games`;
+        const url = `${igdbBaseUrl}/games`;
         try {
             const query = genreId
                 ? `fields name,cover.url; where genres = ${genreId} & rating > 70; limit 10; offset ${offset};`
@@ -212,8 +221,8 @@ async function getGames(n, genreId = null) {
 
             const response = await axios.post(url, query, {
                 headers: {
-                    "Client-ID": CLIENT_ID,
-                    "Authorization": `Bearer ${ACCESS_TOKEN}`
+                    "Client-ID": igdbClientId,
+                    "Authorization": `Bearer ${igdbAccessToken}`
                 }
             });
 
@@ -350,8 +359,8 @@ async function searchGoogleImage(query) {
 
     try {
         const response = await customsearch.cse.list({
-            auth: GOOGLE_API_KEY,
-            cx: GOOGLE_CX,
+            auth: googleApiKey,
+            cx: googleCx,
             q: query,
             searchType: 'image',
             num: 1
@@ -397,7 +406,7 @@ async function getTracks(n, tags) {
                     params: {
                         method: 'tag.gettoptracks',
                         tag: tag,
-                        api_key: LASTFM_API_KEY,
+                        api_key: lastfmApiKey,
                         format: 'json',
                         limit: Math.ceil(n / tags.length)
                     }
@@ -475,7 +484,7 @@ app.get('/api/trending_music', async (req, res) => {
         const response = await axios.get('http://ws.audioscrobbler.com/2.0/', {
             params: {
                 method: 'chart.gettoptracks',
-                api_key: LASTFM_API_KEY,
+                api_key: lastfmApiKey,
                 format: 'json',
                 limit: 35
             }
@@ -530,10 +539,10 @@ async function classifyAndSuggest(text) {
   };
 
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(huggingfaceApiUrl, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${API_TOKEN}`,
+        Authorization: `Bearer ${huggingfaceApiToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
@@ -607,19 +616,19 @@ app.get('/api/search', async (req, res) => {
 
     try {
         // Search for movies
-        const movieUrl = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`;
+        const movieUrl = `${tmdbBaseUrl}/search/movie?api_key=${tmdbApiKey}&query=${encodeURIComponent(query)}`;
         const movieResponse = await axios.get(movieUrl);
         const movies = movieResponse.data.results.map(movie => ({
             title: movie.title,
-            posterUrl: movie.poster_path ? `${IMAGE_URL}${movie.poster_path}` : null
+            posterUrl: movie.poster_path ? `${tmdbImageUrl}${movie.poster_path}` : null
         })).slice(0, 10);
 
         // Search for games using IGDB
         const gameQuery = `search "${query}"; fields name,cover.url; limit 10;`;
-        const gameResponse = await axios.post(`${IGDB_BASE_URL}/games`, gameQuery, {
+        const gameResponse = await axios.post(`${igdbBaseUrl}/games`, gameQuery, {
             headers: {
-                "Client-ID": CLIENT_ID,
-                "Authorization": `Bearer ${ACCESS_TOKEN}`
+                "Client-ID": igdbClientId,
+                "Authorization": `Bearer ${igdbAccessToken}`
             }
         });
         const games = gameResponse.data.map(game => ({
@@ -632,7 +641,7 @@ app.get('/api/search', async (req, res) => {
             params: {
                 method: 'track.search',
                 track: query,
-                api_key: LASTFM_API_KEY,
+                api_key: lastfmApiKey,
                 format: 'json',
                 limit: 10
             }
