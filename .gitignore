@@ -1,0 +1,27 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Firebase cache
+.firebase/
+
+# Dataconnect generated files
+.dataconnect
+dataconnect-generated/
+
+# Build files (if applicable)
+build/
+dist/
+
+# IDE-specific files
+.vscode/
+.DS_Store

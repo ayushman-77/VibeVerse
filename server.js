@@ -8,37 +8,70 @@ import { google } from 'googleapis';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
-import admin from "firebase-admin";
-import { config } from "./functions/index.js"; // Import config
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Initialize Firebase Admin
-admin.initializeApp();
+const app = express();
 
-// Fetch secrets using config
-const tmdbApiKey = config.tmdbApiKey.value();
-const tmdbBaseUrl = config.tmdbBaseUrl.value();
-const tmdbImageUrl = config.tmdbImageUrl.value();
+// import admin from "firebase-admin";
+// import { config } from "./functions/index.js"; // Import config
 
-const igdbClientId = config.igdbClientId.value();
-const igdbClientSecret = config.igdbClientSecret.value();
-const igdbAccessToken = config.igdbAccessToken.value();
-const igdbBaseUrl = config.igdbBaseUrl.value();
+// // Initialize Firebase Admin
+// admin.initializeApp();
 
-const lastfmApiKey = config.lastfmApiKey.value();
+// // Fetch secrets using config
+// const tmdbApiKey = config.tmdbApiKey.value();
+// const tmdbBaseUrl = config.tmdbBaseUrl.value();
+// const tmdbImageUrl = config.tmdbImageUrl.value();
 
-const googleApiKey = config.googleApiKey.value();
-const googleCx = config.googleCx.value();
+// const igdbClientId = config.igdbClientId.value();
+// const igdbClientSecret = config.igdbClientSecret.value();
+// const igdbAccessToken = config.igdbAccessToken.value();
+// const igdbBaseUrl = config.igdbBaseUrl.value();
 
-const huggingfaceApiUrl = config.huggingfaceApiUrl.value();
-const huggingfaceApiToken = config.huggingfaceApiToken.value();
+// const lastfmApiKey = config.lastfmApiKey.value();
 
-const firebaseApiKey = config.firebaseApiKey.value();
-const firebaseAuthDomain = config.firebaseAuthDomain.value()
-const firebaseProjectId = config.firebaseProjectId.value();
-const firebaseStorageBucket = config.firebaseStorageBucket.value();
-const firebaseMessagingSenderId = config.firebaseMessagingSenderId.value();
-const firebaseAppId = config.firebaseAppId.value();
-const firebaseMeasurementId = config.firebaseMeasurementId.value();
+// const googleApiKey = config.googleApiKey.value();
+// const googleCx = config.googleCx.value();
+
+// const huggingfaceApiUrl = config.huggingfaceApiUrl.value();
+// const huggingfaceApiToken = config.huggingfaceApiToken.value();
+
+// const firebaseApiKey = config.firebaseApiKey.value();
+// const firebaseAuthDomain = config.firebaseAuthDomain.value()
+// const firebaseProjectId = config.firebaseProjectId.value();
+// const firebaseStorageBucket = config.firebaseStorageBucket.value();
+// const firebaseMessagingSenderId = config.firebaseMessagingSenderId.value();
+// const firebaseAppId = config.firebaseAppId.value();
+// const firebaseMeasurementId = config.firebaseMeasurementId.value();
+
+// load environment variables from.env file
+dotenv.config();
+const tmdbApiKey = process.env.TMDB_API_KEY;
+const tmdbBaseUrl = process.env.TMDB_BASE_URL;
+const tmdbImageUrl = process.env.TMDB_IMAGE_URL;
+
+const igdbClientId = process.env.IGDB_CLIENT_ID;
+const igdbClientSecret = process.env.IGDB_CLIENT_SECRET;
+const igdbAccessToken = process.env.IGDB_ACCESS_TOKEN;
+const igdbBaseUrl = process.env.IGDB_BASE_URL;
+
+const lastfmApiKey = process.env.LASTFM_API_KEY;
+
+const googleApiKey = process.env.GOOGLE_API_KEY;
+const googleCx = process.env.GOOGLE_CX;
+
+const huggingfaceApiUrl = process.env.HUGGINGFACE_API_URL;
+const huggingfaceApiToken = process.env.HUGGINGFACE_API_TOKEN;
+
+const firebaseApiKey = process.env.FIREBASE_API_KEY;
+const firebaseAuthDomain = process.env.FIREBASE_AUTH_DOMAIN;
+const firebaseProjectId = process.env.FIREBASE_PROJECT_ID;
+const firebaseStorageBucket = process.env.FIREBASE_STORAGE_BUCKET;
+const firebaseMessagingSenderId = process.env.FIREBASE_MESSAGING_SENDER_ID;
+const firebaseAppId = process.env.FIREBASE_APP_ID;
+const firebaseMeasurementId = process.env.FIREBASE_MEASUREMENT_ID;
+
 
 const firebaseConfig = {
     apiKey: firebaseApiKey,
@@ -94,7 +127,7 @@ app.post('/api/recommendations', async (req, res) => {
         if (response.status === 200) {
             const movies = response.data.results.map(movie => ({
                 title: movie.title,
-                posterUrl: `${IMAGE_URL}${movie.poster_path}`
+                posterUrl: `${tmdbImageUrl}${movie.poster_path}`
             }));
             console.log('Movies:', movies); // Log the movies to verify the response
             res.json(movies);
@@ -190,7 +223,7 @@ async function getMovies(n, genreId = null) {
 
             const results = response.data.results.map(movie => ({
                 title: movie.title,
-                posterUrl: `${IMAGE_URL}${movie.poster_path}`
+                posterUrl: `${tmdbImageUrl}${movie.poster_path}`
             }));
 
             movies.push(...results);
@@ -503,6 +536,10 @@ app.get('/api/trending_music', async (req, res) => {
         console.error('Error fetching trending music:', error.message);
         res.status(500).json({ error: 'Failed to fetch trending music' });
     }
+});
+
+app.get('/api/questions', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'question_list.json'));
 });
 
 app.post('/api/music_recommendations', async (req, res) => {
