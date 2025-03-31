@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebas
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-
+dotenv.config();
 const firebaseApiKey = process.env.FIREBASE_API_KEY;
 const firebaseAuthDomain = process.env.FIREBASE_AUTH_DOMAIN;
 const firebaseProjectId = process.env.FIREBASE_PROJECT_ID;
