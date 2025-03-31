@@ -13,38 +13,6 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// import admin from "firebase-admin";
-// import { config } from "./functions/index.js"; // Import config
-
-// // Initialize Firebase Admin
-// admin.initializeApp();
-
-// // Fetch secrets using config
-// const tmdbApiKey = config.tmdbApiKey.value();
-// const tmdbBaseUrl = config.tmdbBaseUrl.value();
-// const tmdbImageUrl = config.tmdbImageUrl.value();
-
-// const igdbClientId = config.igdbClientId.value();
-// const igdbClientSecret = config.igdbClientSecret.value();
-// const igdbAccessToken = config.igdbAccessToken.value();
-// const igdbBaseUrl = config.igdbBaseUrl.value();
-
-// const lastfmApiKey = config.lastfmApiKey.value();
-
-// const googleApiKey = config.googleApiKey.value();
-// const googleCx = config.googleCx.value();
-
-// const huggingfaceApiUrl = config.huggingfaceApiUrl.value();
-// const huggingfaceApiToken = config.huggingfaceApiToken.value();
-
-// const firebaseApiKey = config.firebaseApiKey.value();
-// const firebaseAuthDomain = config.firebaseAuthDomain.value()
-// const firebaseProjectId = config.firebaseProjectId.value();
-// const firebaseStorageBucket = config.firebaseStorageBucket.value();
-// const firebaseMessagingSenderId = config.firebaseMessagingSenderId.value();
-// const firebaseAppId = config.firebaseAppId.value();
-// const firebaseMeasurementId = config.firebaseMeasurementId.value();
-
 // load environment variables from.env file
 dotenv.config();
 const tmdbApiKey = process.env.TMDB_API_KEY;
@@ -103,13 +71,6 @@ const MOOD_TO_GENRE_GAMES = {
 
 app.use(cors());
 app.use(express.json());
-
-// async function initializeGenres() {
-//     const genres = await list_genres();
-//     genres.forEach(genre => {
-//         GENRE[genre.name.toLowerCase()] = genre.id;
-//     });
-// }
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -180,12 +141,6 @@ app.get('/api/questions', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'question_list.json'));
 });
 
-// initializeGenres().then(() => {
-//     app.listen(3000, () => {
-//         console.log('Server is running on http://localhost:3000');
-//     });
-// });
-
 app.get('/api/trending_games', async (req, res) => {
     const games = await getGames(35); // Fetch 35 trending games
     res.json(games);
@@ -201,17 +156,6 @@ app.post('/api/game_recommendations', async (req, res) => {
         res.status(500).json({ error: 'Failed to generate recommendations' });
     }
 });
-
-// async function list_genres() {
-//     const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`;
-//     try {
-//         const response = await axios.get(url);
-//         return response.data.genres;
-//     } catch (error) {
-//         console.error(`Error: ${error.response.status}, ${error.response.statusText}`);
-//         return [];
-//     }
-// }
 
 async function getMovies(n, genreId = null) {
     let movies = [];
