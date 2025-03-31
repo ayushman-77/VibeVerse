@@ -27,27 +27,63 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 // Sign up function
-export const signUp = async (email, password) => {
-  return await createUserWithEmailAndPassword(auth, email, password);
+const signUp = async (email, password) => {
+  try {
+    console.log("Attempting to sign up with:", email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log("User Signed Up:", userCredential.user);
+    alert("User signed in");
+    return userCredential.user;
+  } catch (error) {
+    console.error("Error Signing Up:", error.message);
+    alert(error.message);
+  }
+}
+
+// Login Function
+const login = async (email, password) => {
+  try {
+    console.log("Attempting to log in with:", email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("User Logged In:", userCredential.user);
+    alert("Login successful!");
+  } catch (error) {
+    console.error("Error Logging In:", error.message);
+    alert(error.message);
+  }
 };
 
-// Login function
-export const login = async (email, password) => {
-  return await signInWithEmailAndPassword(auth, email, password);
+// Logout Function
+const logout = async () => {
+  try {
+    await signOut(auth);
+    console.log("User Logged Out");
+    alert("Logged out successfully!");
+  } catch (error) {
+    console.error("Error Logging Out:", error.message);
+    alert(error.message);
+  }
 };
 
-// Logout function
-export const logout = async () => {
-  return await signOut(auth);
-};
-
-// Get current user function
-export const getCurrentUser = () => {
+const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     onAuthStateChanged(auth, (user) => {
-      resolve(user);
-    }, reject);
+      if (user) {
+        console.log("Current User:", user);
+        resolve(user); // Resolve with the current user object
+      } else {
+        console.log("No user is currently logged in.");
+        resolve(null); // Resolve with null if no user is logged in
+      }
+    }, (error) => {
+      console.error("Error checking auth state:", error.message);
+      reject(error); // Reject with the error if something goes wrong
+    });
   });
 };
+
+// Export functions (if using modules)
+export { signUp, login, logout, getCurrentUser };

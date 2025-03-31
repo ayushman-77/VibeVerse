@@ -51,6 +51,7 @@ const firebaseConfig = {
     measurementId: firebaseMeasurementId
 };
 
+
 const GENRE = {};
 
 const MOOD_TO_GENRE = {
