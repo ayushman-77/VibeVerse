@@ -3,15 +3,24 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebas
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-// Your Firebase configuration
+
+const firebaseApiKey = process.env.FIREBASE_API_KEY;
+const firebaseAuthDomain = process.env.FIREBASE_AUTH_DOMAIN;
+const firebaseProjectId = process.env.FIREBASE_PROJECT_ID;
+const firebaseStorageBucket = process.env.FIREBASE_STORAGE_BUCKET;
+const firebaseMessagingSenderId = process.env.FIREBASE_MESSAGING_SENDER_ID;
+const firebaseAppId = process.env.FIREBASE_APP_ID;
+const firebaseMeasurementId = process.env.FIREBASE_MEASUREMENT_ID;
+
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBot-NM8GnRbv6F3KQZJIHsgNeZ4Q6rn6o",
-  authDomain: "vibeverse-cd128.firebaseapp.com",
-  projectId: "vibeverse-cd128",
-  storageBucket: "vibeverse-cd128.firebasestorage.app",
-  messagingSenderId: "258233495606",
-  appId: "1:258233495606:web:2154179914629201786897",
-  measurementId: "G-KN2SR9QSV1",
+    apiKey: firebaseApiKey,
+    authDomain: firebaseAuthDomain,
+    projectId: firebaseProjectId,
+    storageBucket: firebaseStorageBucket,
+    messagingSenderId: firebaseMessagingSenderId,
+    appId: firebaseAppId,
+    measurementId: firebaseMeasurementId
 };
 
 // Initialize Firebase
