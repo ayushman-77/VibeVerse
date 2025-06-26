@@ -1,17 +1,17 @@
-# Vibeverse
+# 💻 Vibeverse
 
-Vibeverse is a mood-based entertainment guide that recommends movies, music, and games tailored to your current mood. It features a web interface, interactive quizzes, and prompt-based suggestions, integrating with various APIs and Firebase for authentication and data management.
+Vibeverse is a mood-based entertainment guide that recommends 🎬 movies, 🎵 music, and 🎮 games tailored to your current mood. It features a web interface, interactive quizzes, and prompt-based suggestions, integrating with various APIs and Firebase for authentication and data management.
 
-## Features
+## ✨ Features
 
 - **Mood-Based Recommendations:** Get personalized suggestions for movies, music, and games based on your mood.
-- **Interactive Quiz:** Take a quiz to determine your mood and receive tailored recommendations.
-- **Prompt Search:** Enter how you feel or what you want, and get instant entertainment suggestions.
-- **Trending Content:** View trending movies, music, and games.
-- **User Authentication:** Sign up, log in, and manage sessions with Firebase Auth.
-- **Movie Review System:** (via GraphQL) Users can review and rate movies (see `dataconnect/`).
+- **🧠 Interactive Quiz:** Take a quiz to determine your mood and receive tailored recommendations.
+- **🔍 Prompt Search:** Enter how you feel or what you want, and get instant entertainment suggestions.
+- **📈 Trending Content:** View trending movies, music, and games.
+- **🔐 User Authentication:** Sign up, log in, and manage sessions with Firebase Auth.
+- **⭐ Movie Review System:** (via GraphQL) Users can review and rate movies (see `dataconnect/`).
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 - **Frontend:** HTML, CSS, JavaScript (see `public/`)
 - **Backend:** Node.js, Express (`index.js`)
@@ -19,7 +19,7 @@ Vibeverse is a mood-based entertainment guide that recommends movies, music, and
 - **Authentication & Database:** Firebase, Firestore
 - **GraphQL:** Custom schema and queries for movies and reviews (see `dataconnect/`)
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 ├── index.js                # Main Express server
@@ -39,18 +39,12 @@ Vibeverse is a mood-based entertainment guide that recommends movies, music, and
 └── ...
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
-### Prerequisites
-- Node.js 18+
-- npm
-- Firebase project (for Auth & Firestore)
-- API keys for TMDB, IGDB, Last.fm, Google Custom Search, HuggingFace
-
-### Installation
+### 🧩 Installation
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/vibeverse.git
+   git clone https://github.com/ayushman-77/vibeverse.git
    cd vibeverse
    ```
 2. **Install dependencies:**
@@ -87,18 +81,18 @@ Vibeverse is a mood-based entertainment guide that recommends movies, music, and
 5. **Open in browser:**
    Navigate to `http://localhost:3000` (or the port specified in your code).
 
-## Usage
+## 💡 Usage
 - Visit the main page to get trending recommendations.
 - Take the quiz (`quiz.html`) for mood-based suggestions.
 - Use the prompt page (`prompt.html`) to get recommendations based on your input.
 - Log in or sign up to save your preferences and reviews.
 
-## DataConnect & GraphQL
+## 🔗 DataConnect & GraphQL
 - The `dataconnect/` directory contains GraphQL schema, queries, and mutations for managing movies, users, and reviews.
 - See `dataconnect/schema/schema.gql` for schema details.
 - Example queries and mutations are in `dataconnect/connector/`.
 
-## Credits
+## 🙌 Credits
 
 **Creators:**
 - [Ayushman](mailto:ayushmandevnath2006@gmail.com) ([LinkedIn](https://www.linkedin.com/in/ayushman-devnath-984742292/), [Instagram](https://www.instagram.com/ayush.man457/))
