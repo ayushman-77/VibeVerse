@@ -92,6 +92,9 @@ Vibeverse is a mood-based entertainment guide that recommends 🎬 movies, 🎵 
 - See `dataconnect/schema/schema.gql` for schema details.
 - Example queries and mutations are in `dataconnect/connector/`.
 
+## 🌐 Webapp Link
+https://vibeverse-e5pn.onrender.com/
+
 ## 🙌 Credits
 
 **Creators:**
